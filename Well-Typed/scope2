@@ -1,0 +1,19 @@
+fun f(x) {
+  g = 10;
+  return g(g) + g(x)
+}
+
+fun g(f) {
+  if (f > 0) then { ret = 1 + g(f - 1) }
+  else { ret = 13 };
+
+  return ret
+}
+
+f = 5;
+g = 3;
+out(g(f) + f(g) + f(f) + g(g))
+
+/* Output:
+ * 114
+ */

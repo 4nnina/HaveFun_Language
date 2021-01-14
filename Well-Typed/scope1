@@ -1,0 +1,22 @@
+fun f(x) {
+    out(x);
+    x = 10;
+    out(x);
+    return x
+}
+
+x = 1;
+out(x);
+out(f(x));
+x = f(x);
+out(x)
+
+/* Output:
+ * 1
+ * 1
+ * 10
+ * 10
+ * 1
+ * 10
+ * 10
+ */

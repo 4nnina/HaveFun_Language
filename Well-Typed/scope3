@@ -1,0 +1,39 @@
+fun f(f) {
+   out(f);
+   f = 10;
+   out(f);
+   f = 100;
+   f = g(f);
+   out(f);
+   return g(f)
+}
+
+fun g(f) {
+  g = 20;
+  out(f);
+  f = 200;
+  out(g);
+  out(f);
+  return g
+}
+
+f = 99;
+out(f(g(f)));
+out(f)
+
+/* Output:
+ * 99
+ * 20
+ * 200
+ * 20
+ * 10
+ * 100
+ * 20
+ * 200
+ * 20
+ * 20
+ * 20
+ * 200
+ * 20
+ * 99
+ */

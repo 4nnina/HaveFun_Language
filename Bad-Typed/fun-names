@@ -1,0 +1,5 @@
+fun f() { return 1 }
+
+fun f(x) { return 1 }
+
+out(1)

@@ -1,0 +1,21 @@
+fun iseven(n) {
+    if (n == 0) then {
+        ret = true
+    } else {
+        ret = isodd(n - 1)
+    };
+
+    return ret
+}
+
+fun isodd(n) {
+    if (n == 0) then {
+        ret = false
+    } else {
+        ret = iseven(n - 1)
+    };
+
+    return ret
+}
+
+out(isodd(20))

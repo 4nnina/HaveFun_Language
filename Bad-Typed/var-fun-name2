@@ -1,0 +1,6 @@
+fun f(x) { return 1 }
+
+fun x(f) { return 2 }
+
+f = 3;
+out(f(f) + x(x))

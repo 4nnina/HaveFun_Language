@@ -1,0 +1,9 @@
+fun const() {
+  return 5
+}
+
+out(const())
+
+/* Output:
+ * 5
+ */
