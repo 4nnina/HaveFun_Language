@@ -1,6 +1,5 @@
 package gen;
 
-import main.Conf;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import value.*;
 
@@ -38,9 +37,11 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
             for (TerminalNode p:variable) {
                 //fails if the parameter p is already declared
                 if (!parameters.add(p.getText())) {
+                    HaveFunError.ParamAlreadyDeclared(ctx,p.toString());
+                    /*
                     System.err.println("Parameter name " + p + " clashes with previous parameters");
                     System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
-                    System.exit(1);
+                    System.exit(1);*/
                 }
             }
         }
@@ -48,9 +49,11 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         FunValue newFun = new FunValue(id, parameters, ctx.com(), ctx.exp());
         //fails if there is a function with the same name
         if(!function.add(newFun)) {
+            HaveFunError.FunAlreadyExist(ctx,id);
+            /*
             System.err.println("Fun " + id + " already defined");
             System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
-            System.exit(1);
+            System.exit(1);*/
         }
 
         return ComValue.INSTANCE;
@@ -69,13 +72,14 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         try {
             return ((NatValue) visitExp(ctx)).toJavaValue();
         } catch (ClassCastException e) {
-            System.err.println("Type mismatch exception!");
+            HaveFunError.NatMismatch(ctx);
+            /*System.err.println("Type mismatch exception!");
             System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
             System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>");
             System.err.println(ctx.getText());
             System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<");
             System.err.println("> Natural expression expected.");
-            System.exit(1);
+            System.exit(1);*/
         }
 
         return 0; // unreachable code
@@ -85,13 +89,16 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         try {
             return ((BoolValue) visitExp(ctx)).toJavaValue();
         } catch (ClassCastException e) {
+
+            HaveFunError.BoolMismatch(ctx);
+            /*
             System.err.println("Type mismatch exception!");
             System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
             System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>");
             System.err.println(ctx.getText());
             System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<");
             System.err.println("> Boolean expression expected.");
-            System.exit(1);
+            System.exit(1);*/
         }
 
         return false; // unreachable code
@@ -110,7 +117,6 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         ExpValue<?> v = visitExp(ctx.exp());
 
         var.getLast().update(id, v);
-
         return ComValue.INSTANCE;
     }
 
@@ -211,9 +217,11 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         String id = ctx.ID().getText();
 
         if (!var.getLast().contains(id)) {
+            HaveFunError.VarUndeclared(ctx,id);
+            /*
             System.err.println("Variable " + id + " used but never instantiated");
             System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
-            System.exit(1);
+            System.exit(1);*/
         }
 
         return var.getLast().get(id);
@@ -255,15 +263,18 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
             //search function in the set
             if(f.getName().equals(fun)){
                 if(par.size() != f.getNumParam()){
+                    HaveFunError.WrongNumArg(ctx,fun);
+                    /*
                     System.err.println("Function " + fun + " called with the wrong number of arguments");
                     System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
-                    System.exit(1);
+                    System.exit(1);*/
                 }
 
                 Conf memFunction = new Conf();      //function memory
                 int i=0;
                 for (String id:f.getParameters()) {
                     memFunction.update(id, visitExp(par.get(i)));       //match actual and formal parameters
+                    i++;
                 }
 
                 var.add(memFunction);
@@ -278,9 +289,11 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         }
 
         //function fun never declared
+        HaveFunError.FunUndeclared(ctx,fun);
+        /*
         System.err.println("Function " + fun + " used but never declared");
         System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
-        System.exit(1);
+        System.exit(1);*/
 
         return null;        //unreachable code
     }

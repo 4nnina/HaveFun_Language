@@ -47,6 +47,6 @@ public class FunValue extends Value {
 
     @Override
     public int hashCode() {
-        return funId.hashCode()^parameters.hashCode();
+        return funId.hashCode();
     }
 }

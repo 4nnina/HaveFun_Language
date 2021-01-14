@@ -1,0 +1,4 @@
+fun x(r, w) { return w - r + y(0, 0) }
+fun y(f, g) { return 0}
+
+out(x(12mod10, 20))

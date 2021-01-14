@@ -1,5 +1,3 @@
-package main;
-
 import gen.HaveFunLexer;
 import gen.HaveFunParser;
 import gen.IntHaveFun;
