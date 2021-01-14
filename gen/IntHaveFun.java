@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class IntHaveFun extends HaveFunBaseVisitor<Value> {
 
-    private final LinkedList<Conf> var;
-    private final Set<FunValue> function = new HashSet<>();
+    private final LinkedList<Conf> var;                             //variables
+    private final Set<FunValue> function = new HashSet<>();         //all function declared and valid
 
     public IntHaveFun() {
         var = new LinkedList<>();
@@ -36,6 +36,7 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
 
         if(!variable.isEmpty()){
             for (TerminalNode p:variable) {
+                //fails if the parameter p is already declared
                 if (!parameters.add(p.getText())) {
                     System.err.println("Parameter name " + p + " clashes with previous parameters");
                     System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
@@ -45,6 +46,7 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
         }
 
         FunValue newFun = new FunValue(id, parameters, ctx.com(), ctx.exp());
+        //fails if there is a function with the same name
         if(!function.add(newFun)) {
             System.err.println("Fun " + id + " already defined");
             System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
@@ -245,9 +247,12 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
 
     @Override
     public ExpValue<?> visitFunction(HaveFunParser.FunctionContext ctx) {
-        String fun = ctx.ID().getText();
-        List<HaveFunParser.ExpContext> par = ctx.exp();
+        String fun = ctx.ID().getText();        //function id
+
+        List<HaveFunParser.ExpContext> par = ctx.exp();     //actual parameters
+
         for (FunValue f:function) {
+            //search function in the set
             if(f.getName().equals(fun)){
                 if(par.size() != f.getNumParam()){
                     System.err.println("Function " + fun + " called with the wrong number of arguments");
@@ -255,10 +260,10 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
                     System.exit(1);
                 }
 
-                Conf memFunction = new Conf();
+                Conf memFunction = new Conf();      //function memory
                 int i=0;
                 for (String id:f.getParameters()) {
-                    memFunction.update(id, visitExp(par.get(i)));
+                    memFunction.update(id, visitExp(par.get(i)));       //match actual and formal parameters
                 }
 
                 var.add(memFunction);
@@ -266,16 +271,17 @@ public class IntHaveFun extends HaveFunBaseVisitor<Value> {
                 if(com != null)
                     visitCom(com);
                 ExpValue<?> returnVal = visitExp(f.getRet());
-                var.removeLast();
+                var.removeLast();               //delete memFunction
 
                 return returnVal;
             }
         }
 
+        //function fun never declared
         System.err.println("Function " + fun + " used but never declared");
         System.err.println("@" + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine());
         System.exit(1);
 
-        return null;
+        return null;        //unreachable code
     }
 }

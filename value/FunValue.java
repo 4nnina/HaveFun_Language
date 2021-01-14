@@ -39,7 +39,7 @@ public class FunValue extends Value {
         return ret;
     }
 
-    //sono uguali se hanno ugual nome
+    //equal-->same name, two function cannot have the same name!
     @Override
     public boolean equals(Object obj) {
         return obj instanceof FunValue && ((FunValue) obj).funId.equals(this.funId);
@@ -47,6 +47,6 @@ public class FunValue extends Value {
 
     @Override
     public int hashCode() {
-        return 0;
+        return funId.hashCode()^parameters.hashCode();
     }
 }
