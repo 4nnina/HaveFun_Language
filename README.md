@@ -24,7 +24,7 @@ fun factorial(n) {
 }
 out(factorial(5))
 
-/* Output: 120 
+//Output: 120 
 ```
 
 **The following programs are not correct:**
