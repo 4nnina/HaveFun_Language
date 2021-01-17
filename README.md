@@ -1,10 +1,10 @@
 # HaveFun_Language
 
-This is the final project for the 'Linguaggi' course at the University of Verona, during the last year of bachelor's degree in Computer Science. It is  a simple imperative language with if-then-else, while, functions, +, -, \*, mod, ^, &, | and comments (//single line, /* multiple line */). Variables are named only with lowercase letter, they could be natural numbers or boolean. 
+This is the final project for the 'Linguaggi' course at the University of Verona, during the last year of bachelor's degree in Computer Science. It is  a simple imperative language with if-then-else, while, functions, +, -, \*, mod, ^, &, | and comments ( //single line, /* multiple line */ ). Variables are named only with lowercase letter, they could be natural numbers or boolean. 
 
 ## Prerequisites
 - opendjdk-15
-- ANTLR 4.9
+- ANTLR v4.9
 
 ### Some program example
 ```
