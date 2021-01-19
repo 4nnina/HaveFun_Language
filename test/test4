@@ -1,0 +1,5 @@
+fun f(x, y, z) {
+return x
+}
+
+out(f(4))

@@ -1,0 +1,12 @@
+fun e() {
+e=5;
+return e}
+
+fun f(e) {
+e= e+1;
+return e}
+
+e=10;
+out(e);
+out(e());
+out(f(e))

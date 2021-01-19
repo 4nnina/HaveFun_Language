@@ -1,0 +1,16 @@
+fun f(x) {
+y = 0;
+out(y);
+return y
+}
+
+y = 5;
+out(f(y));
+out(y)
+
+/*
+Output:
+0
+0
+5
+*/

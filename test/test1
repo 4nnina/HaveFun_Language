@@ -1,0 +1,7 @@
+fun f(x, y, z) {
+return x
+}
+
+fun f(x, y, z) {
+return y
+}
